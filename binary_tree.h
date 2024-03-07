@@ -1,6 +1,7 @@
-#pragma once
+п»ї#pragma once
 #include <vector>
 #include <iostream>
+#include <cmath>
 using std::vector;
 template <typename T>
 class binary_tree
@@ -31,6 +32,9 @@ public:
 	T get_min();
 	T get_max();
 
+
+	
+
 	static bool compare_trees(node* root1, node* root2);
 
 	bool empty();
@@ -38,28 +42,49 @@ public:
 	void show(); // IN ORDER
 	
 
-	//1. У двійковому дереві пошуку роздрукувати всі ключі, що містяться в листі.
-	//2. У двійковому дереві пошуку роздрукувати всі ключі, що містяться у внутрішніх вузлах.
-	//3. У двійковому дереві пошуку роздрукувати всі ключі, що містяться у вузлах, у яких є тільки лівий син.
-	//4. У двійковому дереві пошуку роздрукувати всі ключі, що містяться у вузлах, у яких є тільки правий син.
-	//5. Знайти глибину мінімального елемента
-	//6. Знайти глибину максимального елемента.
-	//7. Визначити кількість елементів в дереві.
-	//8. Визначити кількість листя в дереві.
-	//9. Визначити кількість внутрішніх вузлів.
-	//10. Визначити кількість вузлів, у яких два сини.
-	//11. Визначити кількість вузлів, у яких один син.
-	//12. Визначити кількість вузлів, у яких є лівий син.
-	//13. Визначити кількість вузлів, у яких є правий син.
-	//14. Визначити кількість вузлів, у яких є тільки лівий син.
-	//15. Визначити кількість вузлів, у яких є тільки правий син.
-	//16. Визначити середнє арифметичне всіх ключів.
-	//17. Знайти висоту дерева.
-	//18. * У двійковому дереві пошуку знайти елемент, наступний за даними.
-	//19. * У двійковому дереві пошуку знайти елемент, що передує даному.
-	//20. * У двійковому дереві пошуку видалити елемент із заданим ключем.
-	//21. * Відсортувати масив, використовуючи проміжне представлення у вигляді двійкової купи.
+	//1. Werte aller BlГ¤tter drucken
+	void show_allLieves(); // IN ORDER
 
+
+	//2. Werte aller internen Knoten ausdrucken
+	void show_allInternNodes();
+
+	//3. Werte aller Knoten mit linken Kindern ausdrucken
+	void show_allNodes_with_leftKids();
+	
+	//4.  Werte aller Knoten mit rechten Kindern ausdrucken
+	void show_allNodes_with_rightKids();
+
+	//5. die Tiefe des Minimums 
+	size_t get_deepness_of_min();
+
+	//6. die Tiefe des Maximums
+	size_t get_deepness_of_max();
+	//7. die Anzahl der Elemente herausfinden
+	size_t count_traversal();
+	//8. die Anzahl der BlГ¤tter herausfinden
+	size_t tieves_count();
+	//9. die Anzahl der internen Knoten herausfinden
+	size_t internNodes_count();
+	//10. die Anzahl der Knoten mit zwei Kindern herausfinden
+	size_t twoKidsNodes_count();
+	//11. die Anzahl der Knoten mit einem Kind herausfinden
+	size_t oneKidNodes_count();
+	
+	//16. Р’РёР·РЅР°С‡РёС‚Рё СЃРµСЂРµРґРЅС” Р°СЂРёС„РјРµС‚РёС‡РЅРµ РІСЃС–С… РєР»СЋС‡С–РІ.
+	//17!!!. Р—РЅР°Р№С‚Рё РІРёСЃРѕС‚Сѓ РґРµСЂРµРІР°.
+	size_t height(); // OK
+	static size_t height(node* root); // OK
+	//18. * РЈ РґРІС–Р№РєРѕРІРѕРјСѓ РґРµСЂРµРІС– РїРѕС€СѓРєСѓ Р·РЅР°Р№С‚Рё РµР»РµРјРµРЅС‚, РЅР°СЃС‚СѓРїРЅРёР№ Р·Р° РґР°РЅРёРјРё. + 
+	T next(const T& value);
+	//19!!!. * РЈ РґРІС–Р№РєРѕРІРѕРјСѓ РґРµСЂРµРІС– РїРѕС€СѓРєСѓ Р·РЅР°Р№С‚Рё РµР»РµРјРµРЅС‚, С‰Рѕ РїРµСЂРµРґСѓС” РґР°РЅРѕРјСѓ.
+	T last(const T& value);
+	//20. * РЈ РґРІС–Р№РєРѕРІРѕРјСѓ РґРµСЂРµРІС– РїРѕС€СѓРєСѓ РІРёРґР°Р»РёС‚Рё РµР»РµРјРµРЅС‚ С–Р· Р·Р°РґР°РЅРёРј РєР»СЋС‡РµРј. + 
+	 // bool remove(const T& value);
+	 
+	//21. * Р’С–РґСЃРѕСЂС‚СѓРІР°С‚Рё РјР°СЃРёРІ, РІРёРєРѕСЂРёСЃС‚РѕРІСѓСЋС‡Рё РїСЂРѕРјС–Р¶РЅРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ Сѓ РІРёРіР»СЏРґС– РґРІС–Р№РєРѕРІРѕС— РєСѓРїРё.
+
+	void heapSort();
 	
 private:
 	size_t size_;
@@ -69,13 +94,15 @@ private:
 	static void post_order_traversal(node* root, vector<T>& vec);
 
 	template<typename Func>
-	void pre_order_traversal(node* root, Func action);
+	size_t pre_order_traversal(node* root, Func action);
 
 	template<typename Func>
-	void in_order_traversal(node* root, Func action);
+	size_t in_order_traversal(node* root, Func action);
 
 	template<typename Func>
-	void post_order_traversal(node* root, Func action);
+	size_t post_order_traversal(node* root, Func action);
+
+	size_t return_from_traversal(size_t& it, size_t& counter);
 
 	
 	static node*  get_min(node* root) {
@@ -87,7 +114,7 @@ private:
 	}
 
 	
-	static node*  get_max(node* root) {
+	static node* get_max(node* root) {
 		if (root == nullptr)
 			return nullptr;
 		if (root->right == nullptr)
@@ -108,16 +135,22 @@ private:
 	}
 	
 
-	
+	static bool isIntern(node*&);
+	static bool has_parent(node*&);
+	static bool has_leftKid( node*&);
+	static bool has_rightKid( node*&);
+	static bool has_kid(node*&);
+	static bool has_twoKids( node*&);
+	static bool isTief(node*& root);
 };
 
 
 
 
-//Реалізувати збалансоване двійкове дерево пошуку :
-//1. АВЛ - дерева
-//2. Червоно - чорні дерева
-//3. Декартові дерева(рандомізовані дерева пошуку)
+//Р РµР°Р»С–Р·СѓРІР°С‚Рё Р·Р±Р°Р»Р°РЅСЃРѕРІР°РЅРµ РґРІС–Р№РєРѕРІРµ РґРµСЂРµРІРѕ РїРѕС€СѓРєСѓ :
+//1. РђР’Р› - РґРµСЂРµРІР°
+//2. Р§РµСЂРІРѕРЅРѕ - С‡РѕСЂРЅС– РґРµСЂРµРІР°
+//3. Р”РµРєР°СЂС‚РѕРІС– РґРµСЂРµРІР°(СЂР°РЅРґРѕРјС–Р·РѕРІР°РЅС– РґРµСЂРµРІР° РїРѕС€СѓРєСѓ)
 
 
-// TO DO понять как сравнивать любые обьекты в С++ 
+// TO DO РїРѕРЅСЏС‚СЊ РєР°Рє СЃСЂР°РІРЅРёРІР°С‚СЊ Р»СЋР±С‹Рµ РѕР±СЊРµРєС‚С‹ РІ РЎ++ 

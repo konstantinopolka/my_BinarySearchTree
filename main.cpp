@@ -28,9 +28,12 @@ int main()
 	binary_tree<int> tree1;
 
 	tree1 = tree;
-	tree.add(2);
+	//tree.add(2);
 
-	std::cout << binary_tree<int>::compare_trees(tree.root, tree1.root);
+	//std::cout << binary_tree<int>::compare_trees(tree.root, tree1.root);
+	//std::cout << (tree1 == tree);
+
+	std::cout << tree1.height();
 
 }
 

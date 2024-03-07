@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "binary_tree.h"
+
 template <typename T>
 binary_tree<T>::binary_tree() : root(nullptr), size_(0)
 {
@@ -171,31 +172,67 @@ void binary_tree<T>::post_order_traversal(node* root, vector<T>& vec) {
 
 template <typename T>
 template<typename Func>
-void binary_tree<T>::pre_order_traversal(node* root, Func action) {
+size_t binary_tree<T>::pre_order_traversal(node* root, Func action) {
+	static size_t it = 0;
+	static size_t counter = 0;
 	if (root == nullptr)
-		return;
-
-	action(root);
+		return 0;
+	it++;
+	action(root, counter);
 	pre_order_traversal(root->left, action);
 	pre_order_traversal(root->right, action);
+
+	if (it == size_) {
+		it = 0;
+		size_t to_return = counter;
+		counter = 0;
+		return to_return;
+	}
+	else
+		return 0;
 }
 template <typename T>
 template<typename Func>
-void binary_tree<T>::in_order_traversal(node* root, Func action) {
+size_t binary_tree<T>::in_order_traversal(node* root, Func action) {
+	static size_t it = 0;
+	static size_t counter = 0;
 	if (root == nullptr)
-		return;
+		return 0;
+	it++;
 	in_order_traversal(root->left, action);
-	action(root);
+	action(root, counter);
 	in_order_traversal(root->right, action);
+
+	if (it == size_) {
+		size_t to_return = counter;
+		//counter = 0;
+		//it = 0;
+		return to_return;
+	}
+	else
+		return 0;
 }
 template <typename T>
 template<typename Func>
-void binary_tree<T>::post_order_traversal(node* root, Func action) {
+size_t binary_tree<T>::post_order_traversal(node* root, Func action) {
+	static size_t it = 0;
+	static size_t counter = 0;
 	if (root == nullptr)
-		return;
+		return 0;
+	it++;
 	post_order_traversal(root->left, action);
 	post_order_traversal(root->right, action);
-	action(root);
+	action(root, counter);
+	
+	
+	if (it == size_) {
+		it = 0;
+		size_t to_return = counter;
+		counter = 0;
+		return to_return;
+	}
+	else
+		return 0;
 }
 
 template <typename T>
@@ -216,18 +253,53 @@ T binary_tree<T>::get_max() {
 		curennt = curennt->right;
 	return curennt->value;
 }
+template <typename T>
+size_t binary_tree<T>::get_deepness_of_min() {
+	size_t deepness = 0;
+	if (!empty()) {
+		node* curennt = root;
+		while (curennt->left != nullptr) {
+			curennt = curennt->left;
+			deepness++;
+		}	
+	}
+	return deepness;
+	
+}
+template <typename T>
+size_t binary_tree<T>::get_deepness_of_max() {
+	size_t deepness = 0;
+	if (!empty()) {
+		node* curennt = root;
+		while (curennt->right != nullptr) {
+			curennt = curennt->right;
+			deepness++;
+		}
+	}
+	return deepness;
+}
 
 
 template <typename T>
 void binary_tree<T>::show() {
-	auto show_node_lambda = [](node*& elem) { std::cout << elem->value << " "; };
+	auto show_node_lambda = [](node*& elem, size_t& counter) -> bool
+	{ 
+		std::cout << elem->value << " "; 
+		counter++;
+		return true;
+	};
 	in_order_traversal(root, show_node_lambda);
 	std::cout << "\n";
 }
 template <typename T>
 void binary_tree<T>::clear() {
 
-	auto clear_node_lambda = [](node*& elem) { delete elem; elem = nullptr; };
+	auto clear_node_lambda = [](node*& elem, size_t& counter)
+	{ 
+		delete elem;
+		elem = nullptr;
+		counter++;
+	};
 	post_order_traversal(root, clear_node_lambda);
 	size_ = 0;
 	root = nullptr;
@@ -237,7 +309,11 @@ void binary_tree<T>::clear() {
 template <typename T>
 binary_tree<T>::binary_tree(const binary_tree& other) : binary_tree()  // (PRE ORDER)
 {
-	auto copy_node_lambda = [this](node*& elem) { this->add(elem->value); };
+	auto copy_node_lambda = [this](node*& elem, size_t& counter)
+	{ 
+		this->add(elem->value);
+		counter++;
+	};
 	pre_order_traversal(other.root, copy_node_lambda);
 }
 template <typename T>
@@ -261,7 +337,7 @@ bool binary_tree<T>::operator==(binary_tree& other){
 	if (other.size_ != this->size_)
 		return false;
 
-	return compare_trees(this, &other);
+	return compare_trees(this->root, other.root);
 }
 
 
@@ -283,5 +359,215 @@ bool binary_tree<T>::compare_trees(node* root1, node* root2) {
 
 template <typename T>
 bool binary_tree<T>::operator!=(binary_tree& other) {
+	return !operator==(other);
+}
 
+template <typename T>
+void  binary_tree<T>::show_allLieves() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter)  -> bool
+	{ 
+		if (!has_kid(elem)) {
+			std::cout << elem->value << " ";
+			counter++;
+			return true;
+		}
+		return false;
+	};
+	in_order_traversal(root, show_lief_lambda);
+	std::cout << "\n";
+}
+
+template<typename T>
+inline void binary_tree<T>::show_allInternNodes()
+{
+	auto show_lief_lambda = [this](node*& elem, size_t& counter)
+	{
+		if (isIntern()) {
+			std::cout << elem->value << " ";
+			counter++;
+			return true;
+		}
+		return false;
+			
+	};
+	in_order_traversal(root, show_lief_lambda);
+	std::cout << "\n";
+}
+
+template<typename T>
+inline void binary_tree<T>::show_allNodes_with_leftKids()
+{
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (has_leftKid(elem))
+		{
+			std::cout << elem->value << " ";
+			counter++;
+			return true;
+		}
+		return false;
+			
+	};
+	in_order_traversal(root, show_lief_lambda);
+	std::cout << "\n";
+}
+
+template<typename T>
+inline void binary_tree<T>::show_allNodes_with_rightKids()
+{
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (has_rightKid(elem)) {
+			std::cout << elem->value << " ";
+			counter++;
+			return true;
+		}
+		return false;
+			
+	};
+	in_order_traversal(root, show_lief_lambda);
+	std::cout << "\n";
+}
+
+
+template<typename T>
+bool binary_tree<T>::isIntern(node*& root) {
+	return has_parent(root) && has_kid(root);
+}
+
+template<typename T>
+bool binary_tree<T>::isTief(node*& root) {
+	return !has_kid(root);
+}
+template<typename T>
+bool binary_tree<T>::has_parent(node*& root) {
+	return root->parent != nullptr;
+}
+
+template<typename T>
+bool binary_tree<T>::has_leftKid( node*& root) {
+	return root->left != nullptr;
+}
+
+template<typename T>
+bool binary_tree<T>::has_rightKid( node*& root) {
+	return root->right != nullptr;
+}
+template<typename T>
+bool binary_tree<T>::has_kid(node*& root) {
+	return has_leftKid(root) || has_rightKid(root);
+}
+template<typename T>
+bool binary_tree<T>::has_twoKids( node*& root) {
+	return has_leftKid(root) && has_rightKid(root);
+}
+
+
+template<typename T>
+size_t binary_tree<T>::count_traversal() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) {counter++;};
+	return in_order_traversal(root, show_lief_lambda);
+}
+
+template<typename T>
+size_t binary_tree<T>::tieves_count() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (!has_kid(elem))
+		{
+			counter++;
+			return true;
+		}
+		return false;
+
+	};
+	return in_order_traversal(root, show_lief_lambda);
+}
+
+template<typename T>
+size_t binary_tree<T>::internNodes_count() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (isIntern(elem))
+		{
+			counter++;
+			return true;
+		}
+		return false;
+
+	};
+	return in_order_traversal(root, show_lief_lambda);
+}
+
+template<typename T>
+size_t binary_tree<T>::twoKidsNodes_count() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (has_twoKids(elem))
+		{
+			counter++;
+			return true;
+		}
+		return false;
+
+	};
+	return in_order_traversal(root, show_lief_lambda);
+}
+
+template<typename T>
+size_t binary_tree<T>::oneKidNodes_count() {
+	auto show_lief_lambda = [this](node*& elem, size_t& counter) -> bool
+	{
+		if (has_kid(elem))
+		{
+			counter++;
+			return true;
+		}
+		return false;
+
+	};
+	return in_order_traversal(root, show_lief_lambda);
+}
+
+
+
+//18. * У двійковому дереві пошуку знайти елемент, наступний за даними. + 
+template<typename T>
+T binary_tree<T>::next(const T& value) {
+	node* searched = search(root, value);
+	if (searched != nullptr) {
+		if (searched->right != nullptr)
+			return get_min(searched->right)->value;
+		if (searched->parent != nullptr)
+			if(searched = searched->parent->left)
+				return searched->parent->value;
+	}
+	return T();
+}
+//19!!!. * У двійковому дереві пошуку знайти елемент, що передує даному.
+template<typename T>
+T binary_tree<T>::last(const T& value) {
+	node* searched = search(root, value);
+	if (searched != nullptr) {
+		if (searched->left != nullptr)
+			return get_max(searched->left)->value;
+		if (searched->parent != nullptr)
+			if (searched = searched->parent->right)
+				return searched->parent->value;
+	}
+	return T();
+}
+
+
+template<typename T>
+size_t binary_tree<T>::height() {
+	return height(root);
+}
+template<typename T>
+size_t  binary_tree<T>::height(node* root) {
+	if (root == nullptr)
+		return 0;
+	if (isTief(root))
+		return 1;
+	return 1 + std::max(height(root->left), height(root->right));
 }

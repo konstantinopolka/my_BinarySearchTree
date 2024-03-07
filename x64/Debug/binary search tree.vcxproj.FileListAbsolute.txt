@@ -1,1 +1,2 @@
 D:\КОДИНГ\C++\С++ Исходники\Algorhythms\binary search tree\x64\Debug\binary search tree.exe
+D:\КОДИНГ\C++\С++ Исходники\Algorhythms\my_BinarySearchTree\x64\Debug\binary search tree.exe
