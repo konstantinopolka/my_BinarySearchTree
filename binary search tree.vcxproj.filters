@@ -35,5 +35,11 @@
     <ClInclude Include="node_impl.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="heap.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="heap_impl.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

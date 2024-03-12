@@ -133,6 +133,8 @@
     <ClInclude Include="binary_tree.h" />
     <ClInclude Include="binary_tree_impl.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="heap_impl.h" />
+    <ClInclude Include="heap.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="node_impl.h" />
   </ItemGroup>

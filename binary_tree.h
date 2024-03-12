@@ -2,7 +2,9 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+
 using std::vector;
+
 template <typename T>
 class binary_tree
 {
@@ -10,7 +12,7 @@ private:
 	class node;
 	using action_with_node = void(*)(node*&);
 public:
-	node* root;
+	
 
 	binary_tree();
 	binary_tree(const binary_tree& other); // TO DO (PRE ORDER)
@@ -88,7 +90,7 @@ public:
 	
 private:
 	size_t size_;
-	
+	node* root;
 	static void pre_order_traversal(node* root, vector<T>& vec);
 	static void in_order_traversal(node* root, vector<T>& vec);
 	static void post_order_traversal(node* root, vector<T>& vec);

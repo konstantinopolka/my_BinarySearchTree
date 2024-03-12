@@ -4,6 +4,16 @@
 #include <iostream>
 #include "Header.h"
 #include <vector>
+
+using namespace std;
+
+ void printArray(int arr[], int n)
+ {
+	 for (int i = 0; i < n; ++i)
+		 cout << arr[i] << " ";
+	 cout << "\n";
+ }
+
 int main()
 {
 	using std::cout;
@@ -28,12 +38,5 @@ int main()
 	binary_tree<int> tree1;
 
 	tree1 = tree;
-	//tree.add(2);
-
-	//std::cout << binary_tree<int>::compare_trees(tree.root, tree1.root);
-	//std::cout << (tree1 == tree);
-
-	std::cout << tree1.height();
-
 }
 
